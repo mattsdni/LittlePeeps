@@ -17,6 +17,7 @@ public class Person
 	Person parents[]; // an array of people that holds this persons parents
 	int lastBaby;
 	int vision; // this is the amount of pixels the blob can see from its edge
+	int lifespan;
 	
 	Person(PApplet p)// , parents if any)
 	{
@@ -40,7 +41,7 @@ public class Person
 		mood.seritonin = .5f;
 		mood.horny = parent.random(0, 1);
 
-		
+		lifespan = (int) parent.random(2500, 10000);
 		
 		vision = 10;
 		
@@ -70,7 +71,7 @@ public class Person
 		mood.seritonin = .5f;
 		mood.horny = parent.random(0, 1);
 
-		
+		lifespan = (int) parent.random(2500, 10000);
 		
 		vision = 10;
 		
@@ -99,7 +100,7 @@ public class Person
 		mood.seritonin = .5f;
 		mood.horny = parent.random(0, 1);
 
-		
+		lifespan = (int) parent.random(2500, 10000);
 		
 		vision = 10;
 		
@@ -128,6 +129,7 @@ public class Person
 		move();
 		updateMood();
 		see();
+		die();
 		debug();
 
 	}
@@ -234,17 +236,21 @@ public class Person
 	}
 
 
-	void die()
+	boolean die()
 	{
+		if (parent.frameCount < lifespan+birthday)
+			return false;
 		if (gender)
 		{
 			Main.numMales--;
 			Main.males.remove(this);
+			return true;
 		}
 		else
 		{
 			Main.numFemales--;
 			Main.females.remove(this);
+			return true;
 		}
 		//Main.people.remove(this);
 	}
@@ -257,7 +263,7 @@ public class Person
 		parent.text((parent.frameCount - lastBaby > 750 ? "T" : "_"), posX, posY+20);
 		//TODO: print out which LL the person is in
 		parent.text((parent.frameCount - lastBaby > 750 ? "T" : "_"), posX, posY+20);
-		
+		parent.text(lifespan+birthday, posX, posY+40);
 	}
 	
 }
